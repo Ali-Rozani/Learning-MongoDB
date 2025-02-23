@@ -1,0 +1,50 @@
+# Created by: Ali Haider
+
+# 1. Show me the databases!
+show dbs
+
+# 2. Let's make (or switch to) a new database called 'myFirstDB'
+use myFirstDB
+
+# 3. What collections are in 'myFirstDB'? (Right now, probably none!)
+show collections
+
+# 4. Let's add our first bit of data! A user named 'Sam'.
+db.users.insertOne({name: "Sam", age: 30, city: "Anytown"})
+
+# 5. Look at all the users we have.
+db.users.find().pretty()
+
+# 6. Just show me the user named 'Sam'.
+db.users.find({name: "Sam"}).pretty()
+
+# 7. Oops! Sam moved to a new city. Let's update that.
+db.users.updateOne({name: "Sam"}, {$set: {city: "NewCity"}})
+
+# 8. Oh no! We accidentally deleted Sam! (Don't worry, it's just a test.)
+db.users.deleteOne({name: "Sam"})
+
+# 9. Let's add some products.
+db.products.insertMany([
+  {name: "Book", price: 15},
+  {name: "Laptop", price: 1200},
+  {name: "Phone", price: 800}
+])
+
+# 10. Show me all the products over $500.
+db.products.find({price: {$gt: 500}}).pretty()
+
+# 11. Make searching for products by price faster!
+db.products.createIndex({price: 1})
+
+# 12. Explain how MongoDB finds a product by price. (For learning how indexes work)
+db.products.find({price: 800}).explain("executionStats")
+
+# 13. Create an order for a user (we'll pretend we have users again).
+db.orders.insertOne({userId: ObjectId(), items: ["Laptop", "Book"], total: 1215})
+
+# 14. Find the total sales amount from all orders.
+db.orders.aggregate([{$group: {_id: null, totalSales: {$sum: "$total"}}}]).pretty()
+
+# 15. That's the basics! You've taken your first steps with MongoDB!
+# End of Basic Guide
